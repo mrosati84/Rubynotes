@@ -202,3 +202,59 @@ for number in 0..15 do
 	puts "The number inside the loop is #{number}"
 end
 ```
+
+## Blocks
+
+I blocchi servono per incapsulare funzionalità, e favorire un tipo di sviluppo funzionale. I blocchi possono essere definiti in due modi. Il modo più usato è tramite ``do`` ``end``
+
+```ruby
+do
+	# some code
+end
+```
+
+Il secondo modo è tramite parentesi graffe:
+
+```ruby
+{
+	# some code
+}
+```
+
+Consideriamo il seguente esempio per capire come funziona il passaggio di blocchi a funzioni:
+
+```ruby
+def form &block
+	puts "<form>"
+	yield
+	puts "</form>"
+end
+
+def paragraph text
+	puts "<p>" + text + "</p>"
+end
+
+def quote text
+	puts "<blockquote>" + text + "</blockquote>"
+end
+
+form do
+	paragraph "This is a paragraph"
+	quote "This is a blockquote"
+end
+```
+
+Questo esempio funziona solo se alla funzione ``form`` viene effettivamente passato un blocco.
+Nel caso in cui nessun blocco venga passato alla funzione, si riceverebbe un errore. Modifichiamo quindi la funzione ``form`` in modo che possa non ricevere un blocco
+
+```ruby
+def form &block
+	puts "<form>"
+	yield if block_given?
+	puts "</form>"
+end
+
+# ...
+```
+
+ora possiamo eseguire la funziona che senza passarle necessariamente un blocco.
