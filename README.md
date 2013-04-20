@@ -133,3 +133,72 @@ puts "The company for model #{car_model} is ", output
 ```
 
 Abbiamo usato il metodo ``print`` invece di ``puts`` perché il primo non aggiunge automaticamente un carattere newline alla fine della stringa.
+
+## Loops
+
+In Ruby esistono 7 modi diversi di creare dei loop. Il primo modo è usando la parola chiave ``loop``. Tutti i loop prendono in argomento un blocco.
+
+```ruby
+number = 0
+loop do
+	break if number > 15
+	puts "The number inside the loop is #{number}"
+	number += 1
+end
+```
+
+Questo tipo di loop non è molto usato. E' possibile riscrivere questo loop usando la parola chiave ``until``:
+
+```ruby
+number = 0
+until number > 15 do
+	puts "The number inside the loop is #{number}"
+	number += 1
+end
+```
+
+E' ancora possibile riscrivere questo esempio usando questa volta la parola chiave ``while``. Il comportamento è opposto al precedente, ed è necessario invertire la condizione del loop da ``>`` a ``<=``:
+
+```ruby
+number = 0
+while number <= 15 do
+	puts "The number inside the loop is #{number}"
+	number += 1
+end
+```
+
+Possiamo anche appoggiarci ad un metodo della classe ``Fixnum`` per eseguire loop:
+
+```ruby
+16.times do |number|
+	puts "The number inside the loop is #{number}"
+end
+```
+
+Un altro metodo è quello di scorrere gli elementi di una lista, ad esempio:
+
+```ruby
+list = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
+
+list.each do |number|
+	puts "The number inside the loop is #{number}"
+end
+```
+
+Un modo migliore di sfruttare le liste è quello di usare un ``range``. Un ``range`` è un elenco di numeri, o di lettere, che può essere costruito usando l'operatore ``..``, che restituisce un oggetto di tipo ``Range``
+
+```ruby
+(0..15).each do |number|
+	puts "The number inside the loop is #{number}"
+end
+```
+
+E' possibile definire un range usando ``...`` invece di ``..``, la differenza sta nel fatto che il primo operatore *esclude* l'ultimo elemento del range. Riferendosi all'esempio precedente quindi, sarà necessario scrivere ``(0...16)`` al posto di ``(0..15)``.
+
+L'ultimo modo possibile per costruire dei loop è l'uso di ``for in``. Per esempio, usando sempre la classe ``Range``, un loop ``for`` potrebbe essere così costruito:
+
+```ruby
+for number in 0..15 do
+	puts "The number inside the loop is #{number}"
+end
+```
