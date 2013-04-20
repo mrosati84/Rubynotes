@@ -119,6 +119,7 @@ output = age < 18 ? "He's a teenager" : "He's adult"
 Consideriamo l'esempio
 
 ```ruby
+print "Tell me a car model"
 car_model = gets.strip
 
 output = case car_model
@@ -130,3 +131,5 @@ output = case car_model
 
 puts "The company for model #{car_model} is ", output
 ```
+
+Abbiamo usato il metodo ``print`` invece di ``puts`` perché il primo non aggiunge automaticamente un carattere newline alla fine della stringa.
