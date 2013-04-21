@@ -258,3 +258,62 @@ end
 ```
 
 ora possiamo eseguire la funziona che senza passarle necessariamente un blocco.
+
+# Procs e lambdas
+
+In Ruby, procs e lambdas sono essenzialmente dei blocchi, ma invece di essere dichiarati in modo anonimo, vengono assegnati ad una variabile.
+Prendiamo l'esempio precedente, usando però i proc.
+
+Esistono tre modi possibili per dichiarare un proc:
+
+```ruby
+myproc = Proc.new do
+	# proc code
+end
+```
+
+oppure
+
+```ruby
+myproc = proc do
+	# proc code
+end
+```
+
+e infine con la notazione *thin arrow*
+
+```ruby
+myproc = -> do
+	# proc code
+end
+
+# alternativamente, usando le parentesi graffe
+
+myproc = -> {
+	# proc code
+}
+```
+
+Riscriviamo ora l'esempio usando un oggetto proc. L'oggetto proc potrà anche ricevere un parametro
+
+```ruby
+def form_with_proc p
+	puts "<form>"
+	p.call true
+	puts "</form>"
+end
+
+def paragraph text
+	puts "<p>" + text + "</p>"
+end
+
+def quote text
+	puts "<p>" + text + "</p>"
+end
+
+myproc = proc do |only_quotes|
+	paragraph "This is a paragraph" unless only_quotes
+	quote "This is a quote"
+end
+```
+
