@@ -317,3 +317,99 @@ myproc = proc do |only_quotes|
 end
 ```
 
+## Differenze tra procs e lambdas
+
+Riscriviamo l'esempio precedente usando un lambda:
+
+```ruby
+def form_with_proc p
+	puts "<form>"
+	
+	# ATTENZIONE! non sto passando il parametro true
+	p.call
+	puts "</form>"
+end
+
+def paragraph text
+	puts "<p>" + text + "</p>"
+end
+
+def quote text
+	puts "<p>" + text + "</p>"
+end
+
+myproc = lambda do |only_quotes|
+	paragraph "This is a paragraph" unless only_quotes
+	quote "This is a quote"
+end
+```
+
+Questo esempio darà un errore. Questo perché i lambda si aspettano che tutti i parametri siano definiti al momento della loro chiamata.
+Sarà quindi necessario trasformare ``p.call`` in ``p.call true`` oppure ``p.call false`` perché l'esecuzione termini senza errori.
+
+Un altra differenza risulta chiara con questo esempio
+
+```ruby
+def run_block block
+	print "Running a "
+	block.call
+	puts "... done.\n"
+end
+
+def app
+	run_block lambda { print "lambda"; return }
+	run_block proc { print "proc"; return }
+end
+
+app
+```
+
+L'output sarà
+
+```
+Running a lambda... done.
+Running a proc
+```
+
+Risulta chiaro che il comportamento del proc non è quello atteso. Questo perché nel caso del lambda, lo scope dello statement ``return`` è quello del blocco. Mentre nel caso del lambda, lo scope del ``return`` diventa quello della funzione chiamante.
+Questo comportamento è ancora più evidente se la chiamata delle due funzioni viene invertita, così:
+
+```ruby
+# ...
+
+def app
+	run_block lambda { print "lambda"; return }
+	run_block proc { print "proc"; return }
+end
+
+app
+```
+
+L'output a questo punto diventa
+
+```
+Running a proc
+```
+
+Perché l'esecuzione viene terminata tramite ``return`` prima ancora che la riga contenente il lambda venga interpretata.
+
+Terminiamo con l'ultimo esempio che impiega gli oggetti proc in un ``case/when``:
+
+```ruby
+fruit		= ->(str) { ["banana", "apple", "grape"].include? str }
+vegetable	= ->(str) { ["potato", "carrot", "turnip"].include? str }
+meat		= ->(str) { ["veel", "pork", "chicken"].include? str }
+
+["potato", "apple", "chicken", "mackarel"].each do |food|
+	case food
+	when fruit
+		puts food + " is a fruit"
+	when vegetable
+		puts food + " is a vegetable"
+	when meat
+		puts food + " is a meat"
+	else
+		puts "I don't know what " + food + " is"
+	end
+end
+```
